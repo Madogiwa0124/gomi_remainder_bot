@@ -29,7 +29,7 @@ post '/callback' do
       when Line::Bot::Event::MessageType::Text
         message = {
           type: 'text',
-          text: "#{event['source']['userId']}さん\n#{GomiChecker.notice_message}"
+          text: GomiChecker.notice_message
         }
         client.reply_message(event['replyToken'], message)
       end
