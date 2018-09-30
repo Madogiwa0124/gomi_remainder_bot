@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'line/bot'
+require_relative 'line_client'
 require_relative 'gomi_checker'
 
 get '/' do
@@ -7,10 +8,7 @@ get '/' do
 end
 
 def client
-  @client ||= Line::Bot::Client.new { |config|
-    config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
-    config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
-  }
+  @client ||= LineClient.new
 end
 
 post '/callback' do
@@ -25,15 +23,8 @@ post '/callback' do
   events.each do |event|
     case event
     when Line::Bot::Event::Message
-      case event.type
-      when Line::Bot::Event::MessageType::Text
-        message = {
-          type: 'text',
-          text: GomiChecker.notice_message
-        }
-        client.reply_message(event['replyToken'], message)
-      end
+      client.reply(event['replyToken'], GomiChecker.notice_message)
     end
   end
-  "OK"
+  puts "OK"
 end
