@@ -5,8 +5,12 @@ def client
   @client ||= LineClient.new
 end
 
+def push_ids
+  ENV['PUSH_TO_ID'].split(',')
+end
+
 begin
-  client.push(ENV['PUSH_TO_ID'], GomiChecker.notice_message)
+  push_ids.each { |id| client.push(id, GomiChecker.notice_message) }
 rescue => e
   puts "batch exec error ..."
   p e
