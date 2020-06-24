@@ -4,7 +4,7 @@ GEM
     dotenv (2.5.0)
     line-bot-api (1.2.5)
     mustermann (1.0.3)
-    rack (2.2.2)
+    rack (2.2.3)
     rack-protection (2.0.4)
       rack
     sinatra (2.0.4)
